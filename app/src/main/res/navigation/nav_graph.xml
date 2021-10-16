@@ -18,5 +18,18 @@
         android:id="@+id/mainFragment"
         android:name="com.tilak.apps.moviedb.ui.main.MainFragment"
         android:label="main_fragment"
-        tools:layout="@layout/main_fragment" />
+        tools:layout="@layout/main_fragment">
+        <action
+            android:id="@+id/action_mainFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.tilak.apps.moviedb.ui.detail.DetailFragment"
+        android:label="detail_fragment"
+        tools:layout="@layout/detail_fragment" >
+        <argument
+            android:name="movie_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

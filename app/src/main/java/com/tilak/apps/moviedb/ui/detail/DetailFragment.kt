@@ -4,29 +4,50 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
-import com.tilak.apps.moviedb.R
+import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import com.tilak.apps.moviedb.databinding.DetailFragmentBinding
 import com.tilak.apps.moviedb.ui.base.BaseFragment
+import com.tilak.apps.moviedb.utils.Logger
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailFragment : BaseFragment() {
+
+    @Inject
+    lateinit var logger: Logger
 
     companion object {
         fun newInstance() = DetailFragment()
     }
 
-    private lateinit var viewModel: DetailViewModel
+    lateinit var _binding: DetailFragmentBinding
+
+    private val viewModel: DetailViewModel by viewModels()
+
+    val args: DetailFragmentArgs by navArgs()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.detail_fragment, container, false)
+    ): View {
+
+        _binding = DetailFragmentBinding.inflate(inflater, container, false)
+
+        return _binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val movieId = args.movieId
+
+        logger.logInfo( "Movie Id : " + movieId)
+
+        viewModel.getMovieDetails(movieId)
+
     }
 
 }

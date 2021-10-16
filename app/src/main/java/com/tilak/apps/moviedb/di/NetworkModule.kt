@@ -95,5 +95,5 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideApiHelper(apiHelperImpl: MovieApiHelperImpl ): ApiHelper = apiHelperImpl
+    fun provideApiHelper(apiHelperImpl: MovieApiHelperImpl): ApiHelper = apiHelperImpl
 }

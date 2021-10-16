@@ -3,7 +3,7 @@ package com.tilak.apps.moviedb.ui.splash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tilak.apps.moviedb.utils.AppConstants
+import com.tilak.apps.moviedb.common.AppConstants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
