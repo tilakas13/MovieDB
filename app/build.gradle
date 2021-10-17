@@ -55,7 +55,9 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation 'androidx.databinding:databinding-common:7.0.2'
+    implementation 'androidx.databinding:databinding-common:7.0.3'
+
+    implementation 'com.google.android.material:material:1.4.0'
 
 
     def lifecycle_livedata ="2.3.1"

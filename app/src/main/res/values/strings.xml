@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MovieDB</string>
+    <string name="title_popular_movies">Popular Movies</string>
+    <string name="cast_crew"><![CDATA[Cast & Crew]]></string>
 </resources>
