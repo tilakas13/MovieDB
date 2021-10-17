@@ -27,16 +27,17 @@ class DetailViewModel @Inject constructor(
     val listCastCrew: LiveData<List<CastCrew>>
         get() = _listCastCrew
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun getMovieDetails(movieId: Int) {
 
         viewModelScope.launch {
-
+            _isLoading.value = true
             val detail = repository.getMovieDetails(movieId)
             val castCrewModel = repository.getCastCewDetails(movieId)
-
             _detailMovieModel.value = detail
-
-
+            _isLoading.value = false
             val listCast = castCrewModel.cast as ArrayList<CastCrew>
             listCast.addAll(castCrewModel.crew)
 

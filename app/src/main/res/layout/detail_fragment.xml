@@ -82,4 +82,13 @@
             android:layout_below="@id/tv_cast_crew_title" />
 
     </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_loader"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="@dimen/dimen_progress_bar"
+        android:layout_height="@dimen/dimen_progress_bar"
+
+        android:layout_centerInParent="true"
+        android:indeterminateTintMode="src_atop" />
 </RelativeLayout>

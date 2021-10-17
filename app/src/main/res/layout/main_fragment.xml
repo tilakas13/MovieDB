@@ -9,16 +9,26 @@
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tb_list_header"
         android:layout_width="match_parent"
-        app:titleTextColor="@android:color/white"
         android:layout_height="@dimen/height_toolbar"
         android:background="@color/purple_500"
         app:layout_constraintStart_toStartOf="parent"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@android:color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_movie_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@id/pb_loader"
         android:layout_below="@id/tb_list_header" />
+
+    <ProgressBar
+        android:id="@+id/pb_loader"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="@dimen/dimen_progress_bar"
+        android:layout_height="@dimen/dimen_progress_bar"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:indeterminateTintMode="src_atop" />
 
 </RelativeLayout>

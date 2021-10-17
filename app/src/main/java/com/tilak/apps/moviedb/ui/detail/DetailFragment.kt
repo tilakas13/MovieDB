@@ -72,6 +72,11 @@ class DetailFragment : BaseFragment() {
                 adapter.setCastCrew(it)
             }
         })
+        viewModel.isLoading.observe(viewLifecycleOwner, { it ->
+            it.let {
+                binding.pbLoader.visibility = if (it) View.VISIBLE else View.GONE
+            }
+        })
 
     }
 

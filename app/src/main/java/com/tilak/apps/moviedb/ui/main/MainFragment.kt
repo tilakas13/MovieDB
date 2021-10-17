@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.tilak.apps.moviedb.R
 import com.tilak.apps.moviedb.databinding.MainFragmentBinding
 import com.tilak.apps.moviedb.ui.base.BaseFragment
@@ -17,18 +18,15 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment : BaseFragment() {
 
-
     @Inject
     lateinit var adapter: MovieAdapter
 
     @Inject
     lateinit var logger: Logger
-    private val viewModel: MainViewModel by viewModels()
 
+    private val viewModel: MainViewModel by viewModels()
     private var _binding: MainFragmentBinding? = null
     private val binding get() = _binding!!
-
-    private var currentPage = 2
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,11 +43,27 @@ class MainFragment : BaseFragment() {
         binding.rvMovieList.layoutManager = lytManager
         binding.rvMovieList.adapter = adapter
 
-        viewModel.getPopularMovies(currentPage)
+        binding.rvMovieList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (lytManager.findLastCompletelyVisibleItemPosition() >= adapter.itemCount - 2 && !viewModel.isLoading.value!!) {
+                    viewModel.getPopularMovies()
+                }
+
+            }
+        })
+
+        viewModel.getPopularMovies()
         viewModel.listMovies.observe(viewLifecycleOwner, { it ->
             it.let {
-                logger.logInfo("List of movies : " + it.size)
                 adapter.setListMovies(it)
+            }
+        })
+
+        viewModel.isLoading.observe(viewLifecycleOwner, { it ->
+            it.let {
+                binding.pbLoader.visibility = if (it) View.VISIBLE else View.GONE
             }
         })
     }
