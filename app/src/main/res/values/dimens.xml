@@ -12,4 +12,5 @@
     <dimen name="height_toolbar">48dp</dimen>
     <dimen name="dimen_icon_header">36dp</dimen>
     <dimen name="dimen_progress_bar">60dp</dimen>
+    <dimen name="height_image_movie_list">240dp</dimen>
 </resources>

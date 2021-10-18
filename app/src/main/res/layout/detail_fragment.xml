@@ -32,9 +32,9 @@
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
-                    app:shapeAppearance="?attr/shapeAppearanceMediumComponent"
                     android:src="@drawable/default_movie_place_holder"
-                    app:layout_collapseMode="parallax" />
+                    app:layout_collapseMode="parallax"
+                    app:shapeAppearance="?attr/shapeAppearanceMediumComponent" />
 
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
@@ -64,22 +64,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/spacing_medium"
-        android:layout_marginBottom="@dimen/spacing_medium">
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginBottom="@dimen/spacing_small">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_cast_crew_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/spacing_medium"
+            android:background="@color/purple_500"
+            android:padding="@dimen/spacing_small"
             android:text="@string/cast_crew"
-            android:textSize="@dimen/text_size_medium" />
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_cast_crew"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_profile_image"
-            android:layout_below="@id/tv_cast_crew_title" />
+            android:layout_below="@id/tv_cast_crew_title"
+            android:layout_marginTop="@dimen/spacing_small" />
 
     </RelativeLayout>
 
@@ -88,7 +92,6 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="@dimen/dimen_progress_bar"
         android:layout_height="@dimen/dimen_progress_bar"
-
         android:layout_centerInParent="true"
         android:indeterminateTintMode="src_atop" />
 </RelativeLayout>
