@@ -30,11 +30,12 @@ class MovieAdapter
         val movie = listMovies[position]
         val movieBanner = holder.binding.ivMovieBanner
         Glide.with(movieBanner.context)
-            .load(AppConstants.IMAGE_BASE_URL + movie.posterPath)
+            .load(AppConstants.LIST_IMAGE_BASE_URL + movie.posterPath)
             .centerCrop()
             .placeholder(R.drawable.default_movie_place_holder)
             .error(R.drawable.default_movie_place_holder)
             .into(movieBanner)
+        holder.binding.tvRating.text = movie.voteAverage.toString()
         holder.binding.root.setOnClickListener { view ->
             val actionDetailView =
                 MainFragmentDirections.actionMainFragmentToDetailFragment(movie.id)

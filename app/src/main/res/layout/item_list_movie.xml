@@ -13,4 +13,16 @@
         android:src="@drawable/default_movie_place_holder"
         app:shapeAppearance="?attr/shapeAppearanceMediumComponent" />
 
+
+    <TextView
+        android:id="@+id/tv_rating"
+        android:textColor="@android:color/white"
+        android:layout_width="@dimen/width_rating_view"
+        android:layout_height="@dimen/width_rating_view"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="@dimen/spacing_large"
+        android:background="@drawable/bg_rating_view"
+        android:gravity="center"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold" />
 </RelativeLayout>

@@ -56,7 +56,7 @@ class DetailFragment : BaseFragment() {
             it.let {
                 val movieBanner = binding.ivMovieBanner
                 Glide.with(movieBanner.context)
-                    .load(AppConstants.IMAGE_BASE_URL + it.posterPath)
+                    .load(AppConstants.BANNER_IMAGE_BASE_URL + it.backdropPath)
                     .centerCrop()
                     .placeholder(R.drawable.default_movie_place_holder)
                     .error(R.drawable.default_movie_place_holder)

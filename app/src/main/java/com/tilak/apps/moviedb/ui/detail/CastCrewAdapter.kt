@@ -32,7 +32,7 @@ class CastCrewAdapter
         val castCrewModel = listCastCrew[position]
         val movieBanner = holder.binding.ivMovieBanner
         Glide.with(movieBanner.context)
-            .load(AppConstants.IMAGE_BASE_URL + castCrewModel.profilePath)
+            .load(AppConstants.LIST_IMAGE_BASE_URL + castCrewModel.profilePath)
             .centerCrop()
             .placeholder(R.drawable.default_movie_place_holder)
             .error(R.drawable.default_movie_place_holder)
