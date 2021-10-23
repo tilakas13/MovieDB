@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"
         android:src="@drawable/default_movie_place_holder"
-        app:shapeAppearance="?attr/shapeAppearanceMediumComponent" />
+        app:shapeAppearance="?attr/shapeAppearanceSmallComponent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_cast_crew_name"
@@ -22,6 +22,7 @@
         android:background="@color/bg_color_cast_crew_name"
         android:gravity="center_horizontal"
         android:paddingTop="@dimen/spacing_small"
+        android:fontFamily="sans-serif-light"
         android:paddingBottom="@dimen/spacing_small"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_cast_crew_name" />

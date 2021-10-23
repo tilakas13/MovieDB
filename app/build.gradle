@@ -58,6 +58,7 @@ dependencies {
     implementation 'androidx.databinding:databinding-common:7.0.3'
 
     implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.core:core:1.6.0'
 
 
     def lifecycle_livedata ="2.3.1"

@@ -5,6 +5,7 @@
     <dimen name="detail_backdrop_height">240dp</dimen>
     <dimen name="text_size_cast_crew_name">12sp</dimen>
     <dimen name="dimen_profile_image">140dp</dimen>
+
     <dimen name="spacing_medium">10dp</dimen>
     <dimen name="spacing_large">15dp</dimen>
     <dimen name="spacing_small">5dp</dimen>

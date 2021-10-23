@@ -3,8 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
@@ -39,6 +38,7 @@
                 <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
+                    android:fontFamily="sans-serif-condensed-light"
                     android:layout_height="@dimen/height_tool_bar"
                     android:background="@android:color/transparent"
                     app:layout_collapseMode="pin"
@@ -48,13 +48,43 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/tv_movie_desc"
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_medium"
-            android:textSize="@dimen/text_size_medium"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_small">
+
+                <ProgressBar
+                    android:id="@+id/pb_loader"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="@dimen/dimen_progress_bar"
+                    android:layout_height="@dimen/dimen_progress_bar"
+                    android:layout_centerInParent="true"
+                    android:indeterminateTintMode="src_atop" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_movie_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pb_loader"
+                    android:layout_marginStart="@dimen/spacing_large"
+                    android:layout_marginTop="@dimen/spacing_large"
+                    android:layout_marginEnd="@dimen/spacing_large"
+                    android:layout_marginBottom="@dimen/spacing_large"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="@dimen/text_size_medium" />
+
+
+            </RelativeLayout>
+
+
+        </androidx.core.widget.NestedScrollView>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
@@ -63,9 +93,7 @@
         android:id="@+id/container_cast_crew"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/spacing_small"
-        android:layout_marginBottom="@dimen/spacing_small">
+        android:layout_alignParentBottom="true">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_cast_crew_title"
@@ -74,6 +102,7 @@
             android:background="@color/purple_500"
             android:padding="@dimen/spacing_small"
             android:text="@string/cast_crew"
+            android:fontFamily="sans-serif-condensed-medium"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_medium"
             android:textStyle="bold" />
@@ -86,12 +115,4 @@
             android:layout_marginTop="@dimen/spacing_small" />
 
     </RelativeLayout>
-
-    <ProgressBar
-        android:id="@+id/pb_loader"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="@dimen/dimen_progress_bar"
-        android:layout_height="@dimen/dimen_progress_bar"
-        android:layout_centerInParent="true"
-        android:indeterminateTintMode="src_atop" />
 </RelativeLayout>
