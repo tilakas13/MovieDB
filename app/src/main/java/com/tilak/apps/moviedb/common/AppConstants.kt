@@ -9,7 +9,7 @@
 package com.tilak.apps.moviedb.common
 
 object AppConstants {
-    const val DURATION_SPLASH = 1500L
+    const val DURATION_SPLASH = 1000L
 
     const val TAG: String = "movie_db"
     const val BASE_URL = "https://api.themoviedb.org/3/"

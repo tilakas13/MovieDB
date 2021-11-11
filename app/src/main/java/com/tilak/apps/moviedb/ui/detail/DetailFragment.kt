@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Tilaka on 10/18/21, 10:52 AM
+ *  * Created by Tilaka on 11/11/21, 10:43 AM
  *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 10/18/21, 10:46 AM
+ *  * Last modified 11/11/21, 10:39 AM
  *
  */
 
@@ -16,8 +16,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tilak.apps.moviedb.R
-import com.tilak.apps.moviedb.common.AppConstants
+import com.tilak.apps.moviedb.common.ImageUtils
 import com.tilak.apps.moviedb.databinding.DetailFragmentBinding
 import com.tilak.apps.moviedb.ui.base.BaseFragment
 import com.tilak.apps.moviedb.utils.Logger
@@ -64,8 +65,9 @@ class DetailFragment : BaseFragment() {
             it.let {
                 val movieBanner = binding.ivMovieBanner
                 Glide.with(movieBanner.context)
-                    .load(AppConstants.BANNER_IMAGE_BASE_URL + it.backdropPath)
+                    .load(ImageUtils.getBannerImage(it.backdropPath))
                     .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .placeholder(R.drawable.default_movie_place_holder)
                     .error(R.drawable.default_movie_place_holder)
                     .into(movieBanner)
