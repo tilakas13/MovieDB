@@ -9,7 +9,7 @@
 package com.tilak.apps.moviedb.di
 
 import android.content.Context
-import com.google.gson.Gson
+import com.tilak.apps.moviedb.BuildConfig
 import com.tilak.apps.moviedb.common.AppConstants
 import com.tilak.apps.moviedb.data.network.ApiHelper
 import com.tilak.apps.moviedb.data.network.ApiService
@@ -33,32 +33,29 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun providesRetrofit(
-        gsonConverterFactory: GsonConverterFactory,
-        okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(AppConstants.BASE_URL)
-            .addConverterFactory(gsonConverterFactory)
-            .client(okHttpClient)
-            .build()
+    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
+        return HttpLoggingInterceptor().apply {
+            level = when {
+                BuildConfig.DEBUG -> HttpLoggingInterceptor.Level.BODY
+                else -> HttpLoggingInterceptor.Level.NONE
+            }
+        }
     }
 
     @Provides
     @Singleton
     fun providesOkHttpClient(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
+        httpLoggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         val cacheSize = (5 * 1024 * 1024).toLong()
         val mCache = Cache(context.cacheDir, cacheSize)
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
         val client = OkHttpClient.Builder()
             .cache(mCache) // make your app offline-friendly without a database!
             .connectTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
-            .addNetworkInterceptor(interceptor)
+            .addNetworkInterceptor(httpLoggingInterceptor)
             .addInterceptor { chain ->
                 var request = chain.request()
                 val urlWithApiHeader = request.url.newBuilder()
@@ -87,17 +84,26 @@ class NetworkModule {
         return client.build()
     }
 
-    @Provides
-    @Singleton
-    fun providesGson(): Gson {
-        return Gson()
-    }
 
     @Provides
     @Singleton
     fun providesGsonConverterFactory(): GsonConverterFactory {
         return GsonConverterFactory.create()
     }
+
+    @Provides
+    @Singleton
+    fun providesRetrofit(
+        gsonConverterFactory: GsonConverterFactory,
+        okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(AppConstants.BASE_URL)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
+            .build()
+    }
+
 
     @Singleton
     @Provides
@@ -108,4 +114,5 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideApiHelper(apiHelperImpl: MovieApiHelperImpl): ApiHelper = apiHelperImpl
+
 }
