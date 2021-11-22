@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="width_splash_image">320dp</dimen>
-    <dimen name="text_size_title_movie_listing">18sp</dimen>
     <dimen name="detail_backdrop_height">240dp</dimen>
     <dimen name="text_size_cast_crew_name">12sp</dimen>
     <dimen name="dimen_profile_image">140dp</dimen>
 
-    <dimen name="spacing_medium">10dp</dimen>
     <dimen name="spacing_large">15dp</dimen>
     <dimen name="spacing_small">5dp</dimen>
     <dimen name="height_tool_bar">48dp</dimen>
     <dimen name="text_size_medium">16sp</dimen>
     <dimen name="height_toolbar">48dp</dimen>
-    <dimen name="dimen_icon_header">36dp</dimen>
     <dimen name="dimen_progress_bar">60dp</dimen>
     <dimen name="height_image_movie_list">240dp</dimen>
     <dimen name="width_rating_view">40dp</dimen>
