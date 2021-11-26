@@ -57,7 +57,8 @@ class CastCrewAdapter
     }
 
     fun setCastCrew(it: List<CastCrew>) {
+        val oldSize = listCastCrew.size
         listCastCrew.addAll(it)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(oldSize, listCastCrew.size)
     }
 }

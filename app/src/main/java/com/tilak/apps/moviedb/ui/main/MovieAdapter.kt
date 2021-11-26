@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tilak.apps.moviedb.R
-import com.tilak.apps.moviedb.common.AppConstants
 import com.tilak.apps.moviedb.common.ImageUtils
 import com.tilak.apps.moviedb.data.model.MovieModel
 import com.tilak.apps.moviedb.databinding.ItemListMovieBinding
@@ -60,7 +59,8 @@ class MovieAdapter
     }
 
     fun setListMovies(it: List<MovieModel>) {
+        val oldSize = listMovies.size
         listMovies.addAll(it)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(oldSize, listMovies.size)
     }
 }
