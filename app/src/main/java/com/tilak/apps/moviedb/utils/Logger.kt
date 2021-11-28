@@ -15,13 +15,13 @@ import javax.inject.Inject
 
 class Logger @Inject constructor() {
 
-    fun logInfo(message: String) {
+    fun logInfo(tag: String, message: String) {
         if (BuildConfig.DEBUG) {
-            Log.i(AppConstants.TAG, message)
+            Log.i(tag, message)
         }
     }
 
-    fun logVerbose(message: String) {
+    fun logVerbose(tag: String, message: String) {
         if (BuildConfig.DEBUG) {
             Log.v(AppConstants.TAG, message)
         }

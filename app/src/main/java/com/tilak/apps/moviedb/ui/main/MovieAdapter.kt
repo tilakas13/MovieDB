@@ -11,6 +11,7 @@ package com.tilak.apps.moviedb.ui.main
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -18,13 +19,14 @@ import com.tilak.apps.moviedb.R
 import com.tilak.apps.moviedb.common.ImageUtils
 import com.tilak.apps.moviedb.data.model.MovieModel
 import com.tilak.apps.moviedb.databinding.ItemListMovieBinding
+import com.tilak.apps.moviedb.utils.Logger
 import javax.inject.Inject
 
 class MovieAdapter
-@Inject constructor() :
+@Inject constructor(val logger: Logger) :
     RecyclerView.Adapter<MovieAdapter.MovieItemViewHolder>() {
 
-    private var listMovies = ArrayList<MovieModel>()
+    private var listMovies = mutableListOf<MovieModel>()
 
     class MovieItemViewHolder(var binding: ItemListMovieBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -59,8 +61,16 @@ class MovieAdapter
     }
 
     fun setListMovies(it: List<MovieModel>) {
-        val oldSize = listMovies.size
-        listMovies.addAll(it)
-        notifyItemRangeChanged(oldSize, listMovies.size)
+        logger.logInfo(TAG, "setListMovies ${it.size}")
+        val diffCallback = MovieListDiffCallback(this.listMovies, it)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        this.listMovies.clear()
+        this.listMovies.addAll(it)
+        diffResult.dispatchUpdatesTo(this)
+        logger.logInfo(TAG, "Adapter Movie Size ${listMovies.size}")
+    }
+
+    companion object {
+        private const val TAG = "MovieAdapter"
     }
 }

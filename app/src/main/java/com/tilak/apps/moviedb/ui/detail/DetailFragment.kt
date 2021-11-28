@@ -58,7 +58,7 @@ class DetailFragment : BaseFragment() {
         binding.rvCastCrew.adapter = adapter
 
         val movieId = args.movieId
-        logger.logInfo("Movie Id : $movieId")
+        logger.logInfo(TAG,"Movie Id : $movieId")
         viewModel.getMovieDetails(movieId)
 
         viewModel.detailMovie.observe(viewLifecycleOwner, { it ->
@@ -93,6 +93,10 @@ class DetailFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object{
+        private const val TAG = "DetailFragment"
     }
 
 }

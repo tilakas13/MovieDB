@@ -51,10 +51,12 @@ class DetailViewModel @Inject constructor(
 
             _listCastCrew.value = listCast
 
-            logger.logInfo("Total cast & crew :${listCast.size}")
+            logger.logInfo(TAG, "Total cast & crew :${listCast.size}")
         }
 
     }
 
-
+    companion object {
+        private const val TAG = "DetailViewModel"
+    }
 }

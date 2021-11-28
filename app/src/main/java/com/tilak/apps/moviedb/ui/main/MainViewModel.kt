@@ -21,15 +21,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel
-@Inject constructor(private val repository: MovieRepository, private val logger: Logger) :
-    ViewModel() {
+@Inject constructor(
+    private val repository: MovieRepository,
+    private val logger: Logger
+) : ViewModel() {
 
-
-    private var _movieListModel = MutableLiveData<List<MovieModel>>()
+    private var _movieListModel = MutableLiveData<MutableList<MovieModel>>()
     private var totalPages: Int = Int.MAX_VALUE
     private var currentPage: Int = 0
 
-    val listMovies: LiveData<List<MovieModel>>
+    val listMovies: LiveData<MutableList<MovieModel>>
         get() = _movieListModel
 
     private val _isLoading = MutableLiveData<Boolean>()
@@ -41,11 +42,19 @@ class MainViewModel
             viewModelScope.launch {
                 _isLoading.value = true
                 val movieModel = repository.getPopularMovies(++currentPage)
-                logger.logInfo("getPopularMovies : $currentPage :: SUCCESS")
+                logger.logInfo(TAG, "getPopularMovies : $currentPage :: SUCCESS")
                 totalPages = movieModel.totalPages
-                _movieListModel.value = movieModel.results
+                val movieList =
+                    if (_movieListModel.value == null) mutableListOf() else _movieListModel.value
+                movieList?.addAll(movieModel.results)
+                _movieListModel.value = movieList!!
                 _isLoading.value = false
+                logger.logInfo(TAG, "getPopularMovies : ${_movieListModel.value?.size}")
             }
         }
+    }
+
+    companion object {
+        private const val TAG = "MainViewModel"
     }
 }
