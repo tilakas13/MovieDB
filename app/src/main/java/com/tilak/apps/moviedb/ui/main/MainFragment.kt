@@ -27,7 +27,7 @@ import javax.inject.Inject
 class MainFragment : BaseFragment() {
 
     @Inject
-    lateinit var adapter: MovieAdapter
+    lateinit var movieListAdapter: MovieAdapter
 
     @Inject
     lateinit var logger: Logger
@@ -46,16 +46,19 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val lytManager = GridLayoutManager(activity, 2);
+        val lytManager = GridLayoutManager(this.context, 2)
         binding.tbListHeader.title = getString(R.string.title_popular_movies)
-        binding.rvMovieList.layoutManager = lytManager
-        binding.rvMovieList.adapter = adapter
+
+        binding.rvMovieList.apply {
+            layoutManager = lytManager
+            adapter = movieListAdapter
+        }
 
         binding.rvMovieList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (lytManager.findLastCompletelyVisibleItemPosition() >= adapter.itemCount - 2 && !viewModel.isLoading.value!!) {
+                if (lytManager.findLastCompletelyVisibleItemPosition() >= movieListAdapter.itemCount - 2 && !viewModel.isLoading.value!!) {
                     viewModel.getPopularMovies()
                 }
 
@@ -65,7 +68,7 @@ class MainFragment : BaseFragment() {
         viewModel.getPopularMovies()
         viewModel.listMovies.observe(viewLifecycleOwner, { it ->
             it.let {
-                adapter.setListMovies(it)
+                movieListAdapter.setListMovies(it)
             }
         })
 
@@ -76,9 +79,10 @@ class MainFragment : BaseFragment() {
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        binding.rvMovieList.adapter = null
         _binding = null
+        super.onDestroy()
     }
 
 }

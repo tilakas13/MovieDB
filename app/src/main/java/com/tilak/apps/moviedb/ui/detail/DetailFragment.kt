@@ -32,9 +32,8 @@ class DetailFragment : BaseFragment() {
     @Inject
     lateinit var logger: Logger
 
-
     @Inject
-    lateinit var adapter: CastCrewAdapter
+    lateinit var castCrewAdapter: CastCrewAdapter
 
     private val viewModel: DetailViewModel by viewModels()
     private val args: DetailFragmentArgs by navArgs()
@@ -52,13 +51,15 @@ class DetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvCastCrew.layoutManager = LinearLayoutManager(
-            context, LinearLayoutManager.HORIZONTAL, false
-        )
-        binding.rvCastCrew.adapter = adapter
+        binding.rvCastCrew.apply {
+            layoutManager = LinearLayoutManager(
+                context, LinearLayoutManager.HORIZONTAL, false
+            )
+            adapter = castCrewAdapter
+        }
 
         val movieId = args.movieId
-        logger.logInfo(TAG,"Movie Id : $movieId")
+        logger.logInfo(TAG, "Movie Id : $movieId")
         viewModel.getMovieDetails(movieId)
 
         viewModel.detailMovie.observe(viewLifecycleOwner, { it ->
@@ -79,7 +80,7 @@ class DetailFragment : BaseFragment() {
 
         viewModel.listCastCrew.observe(viewLifecycleOwner, { it ->
             it.let {
-                adapter.setCastCrew(it)
+                castCrewAdapter.setCastCrew(it)
             }
         })
         viewModel.isLoading.observe(viewLifecycleOwner, { it ->
@@ -91,11 +92,12 @@ class DetailFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        binding.rvCastCrew.adapter = null
         _binding = null
+        super.onDestroy()
     }
 
-    companion object{
+    companion object {
         private const val TAG = "DetailFragment"
     }
 

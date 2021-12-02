@@ -1,22 +1,20 @@
 /*
  * *
- *  * Created by Tilaka on 11/11/21, 10:33 AM
+ *  * Created by Tilaka on 12/2/21, 3:53 PM
  *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 11/11/21, 10:33 AM
+ *  * Last modified 11/11/21, 10:40 AM
  *
  */
 
 package com.tilak.apps.moviedb.common
 
-import javax.annotation.Nonnull
-
 object ImageUtils {
 
-    fun getListThumbnail(@Nonnull posterPath: String): String {
+    fun getListThumbnail(posterPath: String): String {
         return "${AppConstants.LIST_IMAGE_BASE_URL}$posterPath"
     }
 
-    fun getBannerImage(@Nonnull posterPath: String): String {
+    fun getBannerImage(posterPath: String): String {
         return "${AppConstants.LIST_IMAGE_BASE_URL}$posterPath"
     }
 }
