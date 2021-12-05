@@ -28,7 +28,7 @@ import javax.inject.Inject
 class MainFragment : BaseFragment() {
 
     @Inject
-    lateinit var adapter: MovieAdapter
+    lateinit var movieListAdapter: MovieAdapter
 
     @Inject
     lateinit var logger: Logger
@@ -47,10 +47,13 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val lytManager = GridLayoutManager(activity, 2)
+        val lytManager = GridLayoutManager(this.context, 2)
         binding.tbListHeader.title = getString(R.string.title_popular_movies)
-        binding.rvMovieList.layoutManager = lytManager
-        binding.rvMovieList.adapter = adapter
+
+        binding.rvMovieList.apply {
+            layoutManager = lytManager
+            adapter = movieListAdapter
+        }
 
         binding.rvMovieList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
@@ -93,9 +96,10 @@ class MainFragment : BaseFragment() {
         binding.pbLoader.visibility = visibility
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        binding.rvMovieList.adapter = null
         _binding = null
+        super.onDestroy()
     }
 
 }
