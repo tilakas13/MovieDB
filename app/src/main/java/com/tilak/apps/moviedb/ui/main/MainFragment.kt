@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,7 +47,7 @@ class MainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val lytManager = GridLayoutManager(activity, 2);
+        val lytManager = GridLayoutManager(activity, 2)
         binding.tbListHeader.title = getString(R.string.title_popular_movies)
         binding.rvMovieList.layoutManager = lytManager
         binding.rvMovieList.adapter = adapter
@@ -55,25 +56,41 @@ class MainFragment : BaseFragment() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (lytManager.findLastCompletelyVisibleItemPosition() >= adapter.itemCount - 2 && !viewModel.isLoading.value!!) {
+                if (lytManager.findLastCompletelyVisibleItemPosition() >= adapter.itemCount - 2
+                    && binding.pbLoader.visibility == View.GONE
+                ) {
                     viewModel.getPopularMovies()
                 }
 
             }
         })
-
+        observeStateChange()
         viewModel.getPopularMovies()
-        viewModel.listMovies.observe(viewLifecycleOwner, { it ->
-            it.let {
-                adapter.setListMovies(it)
-            }
-        })
 
-        viewModel.isLoading.observe(viewLifecycleOwner, { it ->
-            it.let {
-                binding.pbLoader.visibility = if (it) View.VISIBLE else View.GONE
+    }
+
+    private fun observeStateChange() {
+        viewModel.screenState.observe(viewLifecycleOwner) {
+            when (it) {
+                is MainViewModel.MovieListingState.Loading -> {
+                    binding.pbLoader.visibility = View.VISIBLE
+                    displayProgress(View.VISIBLE)
+                }
+
+                is MainViewModel.MovieListingState.Error -> {
+                    displayProgress(View.GONE)
+                    Toast.makeText(this.context, it.message, Toast.LENGTH_LONG).show()
+                }
+                is MainViewModel.MovieListingState.Success -> {
+                    displayProgress(View.GONE)
+                    adapter.setListMovies(it.data)
+                }
             }
-        })
+        }
+    }
+
+    private fun displayProgress(visibility: Int) {
+        binding.pbLoader.visibility = visibility
     }
 
     override fun onDestroyView() {
