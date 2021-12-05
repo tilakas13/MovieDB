@@ -59,7 +59,7 @@ class MainFragment : BaseFragment() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (lytManager.findLastCompletelyVisibleItemPosition() >= adapter.itemCount - 2
+                if (lytManager.findLastCompletelyVisibleItemPosition() >= movieListAdapter.itemCount - 2
                     && binding.pbLoader.visibility == View.GONE
                 ) {
                     viewModel.getPopularMovies()
@@ -86,7 +86,7 @@ class MainFragment : BaseFragment() {
                 }
                 is MainViewModel.MovieListingState.Success -> {
                     displayProgress(View.GONE)
-                    adapter.setListMovies(it.data)
+                    movieListAdapter.setListMovies(it.data)
                 }
             }
         }
