@@ -8,7 +8,6 @@
 
 package com.tilak.apps.moviedb.ui.detail
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,35 +24,39 @@ class DetailViewModel @Inject constructor(
     private val repository: MovieRepository, private val logger: Logger
 ) : ViewModel() {
 
-
     private var _detailMovieModel = MutableLiveData<MovieDetail>()
     private var _listCastCrew = MutableLiveData<List<CastCrew>>()
-
-    val detailMovie: LiveData<MovieDetail>
-        get() = _detailMovieModel
-
-    val listCastCrew: LiveData<List<CastCrew>>
-        get() = _listCastCrew
-
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
+    val screenState = MutableLiveData<DetailViewState>()
 
     fun getMovieDetails(movieId: Int) {
-
         viewModelScope.launch {
-            _isLoading.value = true
-            val detail = repository.getMovieDetails(movieId)
-            val castCrewModel = repository.getCastCewDetails(movieId)
-            _detailMovieModel.value = detail
-            _isLoading.value = false
-            val listCast = castCrewModel.cast as ArrayList<CastCrew>
-            listCast.addAll(castCrewModel.crew)
-
-            _listCastCrew.value = listCast
-
-            logger.logInfo(TAG, "Total cast & crew :${listCast.size}")
+            try {
+                screenState.value = DetailViewState.Loading(true)
+                val detail = repository.getMovieDetails(movieId)
+                val castCrewModel = repository.getCastCewDetails(movieId)
+                _detailMovieModel.value = detail
+                screenState.value = DetailViewState.SuccessMovieDetail(detail)
+                screenState.value = DetailViewState.Loading(false)
+                val listCast = castCrewModel.cast as ArrayList<CastCrew>
+                listCast.addAll(castCrewModel.crew)
+                _listCastCrew.value = listCast
+                screenState.value = DetailViewState.SuccessCastCrew(listCast)
+                logger.logInfo(TAG, "Total cast & crew :${listCast.size}")
+            } catch (e: Exception) {
+                screenState.value = DetailViewState.Loading(false)
+                screenState.value = DetailViewState.Error(
+                    e.localizedMessage ?: "Please check your internet connection"
+                )
+            }
         }
 
+    }
+
+    sealed class DetailViewState {
+        data class SuccessMovieDetail(val data: MovieDetail) : DetailViewState()
+        data class SuccessCastCrew(val data: ArrayList<CastCrew>) : DetailViewState()
+        data class Error(val message: String) : DetailViewState()
+        data class Loading(val stateLoading: Boolean) : DetailViewState()
     }
 
     companion object {

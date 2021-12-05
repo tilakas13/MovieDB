@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tilak.apps.moviedb.R
 import com.tilak.apps.moviedb.common.ImageUtils
+import com.tilak.apps.moviedb.data.model.details.MovieDetail
 import com.tilak.apps.moviedb.databinding.DetailFragmentBinding
 import com.tilak.apps.moviedb.ui.base.BaseFragment
 import com.tilak.apps.moviedb.utils.Logger
@@ -61,34 +63,41 @@ class DetailFragment : BaseFragment() {
         val movieId = args.movieId
         logger.logInfo(TAG, "Movie Id : $movieId")
         viewModel.getMovieDetails(movieId)
+        observeStateChange()
+    }
 
-        viewModel.detailMovie.observe(viewLifecycleOwner, { it ->
-            it.let {
-                val movieBanner = binding.ivMovieBanner
-                Glide.with(movieBanner.context)
-                    .load(ImageUtils.getBannerImage(it.backdropPath))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                    .placeholder(R.drawable.default_movie_place_holder)
-                    .error(R.drawable.default_movie_place_holder)
-                    .into(movieBanner)
-
-                binding.toolbar.title = it.originalTitle
-                binding.tvMovieDesc.text = it.overview
+    private fun observeStateChange() {
+        viewModel.screenState.observe(viewLifecycleOwner) {
+            when (it) {
+                is DetailViewModel.DetailViewState.SuccessMovieDetail -> {
+                    displayMovieDetail(it.data)
+                }
+                is DetailViewModel.DetailViewState.SuccessCastCrew -> {
+                    castCrewAdapter.setCastCrew(it.data)
+                }
+                is DetailViewModel.DetailViewState.Loading -> {
+                    binding.pbLoader.visibility = if (it.stateLoading) View.VISIBLE else View.GONE
+                }
+                is DetailViewModel.DetailViewState.Error -> {
+                    Toast.makeText(this.context, it.message, Toast.LENGTH_LONG).show()
+                }
             }
-        })
+        }
+    }
 
-        viewModel.listCastCrew.observe(viewLifecycleOwner, { it ->
-            it.let {
-                castCrewAdapter.setCastCrew(it)
-            }
-        })
-        viewModel.isLoading.observe(viewLifecycleOwner, { it ->
-            it.let {
-                binding.pbLoader.visibility = if (it) View.VISIBLE else View.GONE
-            }
-        })
-
+    private fun displayMovieDetail(data: MovieDetail) {
+        data.let {
+            binding.toolbar.title = it.originalTitle
+            binding.tvMovieDesc.text = data.overview
+            val movieBanner = binding.ivMovieBanner
+            Glide.with(movieBanner.context)
+                .load(ImageUtils.getBannerImage(it.backdropPath))
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .placeholder(R.drawable.default_movie_place_holder)
+                .error(R.drawable.default_movie_place_holder)
+                .into(movieBanner)
+        }
     }
 
     override fun onDestroy() {

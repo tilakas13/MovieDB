@@ -28,8 +28,6 @@ class MainViewModel
     private var _movieListModel = MutableLiveData<MutableList<MovieModel>>()
     private var totalPages: Int = Int.MAX_VALUE
     private var currentPage: Int = 0
-
-
     val screenState = MutableLiveData<MovieListingState>()
 
     fun getPopularMovies() {
@@ -47,7 +45,9 @@ class MainViewModel
                     screenState.value = MovieListingState.Success(_movieListModel.value!!)
                     logger.logInfo(TAG, "getPopularMovies : ${_movieListModel.value?.size}")
                 } catch (e: Exception) {
-                    screenState.value = MovieListingState.Error(e.localizedMessage)
+                    screenState.value = MovieListingState.Error(
+                        e.localizedMessage ?: "Please check your internet connection"
+                    )
                 }
             }
         }
