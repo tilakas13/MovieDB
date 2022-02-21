@@ -8,12 +8,12 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.tilak.apps.moviedb"
         minSdk 24
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -57,7 +57,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation 'androidx.databinding:databinding-common:7.0.4'
 
-    def lifecycle_livedata ="2.4.0"
+    def lifecycle_livedata ="2.4.1"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_livedata"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_livedata"
 
