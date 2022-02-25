@@ -1,29 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_movie_banner"
+    <data>
+
+        <variable
+            name="movieModel"
+            type="com.tilak.apps.moviedb.data.model.MovieModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_image_movie_list"
-        android:layout_margin="5dp"
-        android:fontFamily="sans-serif-condensed-light"
-        android:scaleType="fitCenter"
-        android:src="@drawable/default_movie_place_holder"
-        app:shapeAppearance="?attr/shapeAppearanceMediumComponent" />
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_movie_banner"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_image_movie_list"
+            android:layout_margin="5dp"
+            android:fontFamily="sans-serif-condensed-light"
+            android:scaleType="fitCenter"
+            app:imageUrl="@{movieModel.posterPath}"
+            app:placeHolder="@{@drawable/default_movie_place_holder}"
+            app:shapeAppearance="?attr/shapeAppearanceMediumComponent" />
 
 
-    <TextView
-        android:id="@+id/tv_rating"
-        android:textColor="@android:color/white"
-        android:layout_width="@dimen/width_rating_view"
-        android:layout_height="@dimen/width_rating_view"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/spacing_large"
-        android:background="@drawable/bg_rating_view"
-        android:gravity="center"
-        android:textSize="@dimen/text_size_medium"
-        android:textStyle="bold" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_rating"
+            android:layout_width="@dimen/width_rating_view"
+            android:layout_height="@dimen/width_rating_view"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="@dimen/spacing_large"
+            android:background="@drawable/bg_rating_view"
+            android:gravity="center"
+            app:setRating="@{movieModel.voteAverage}"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</layout>

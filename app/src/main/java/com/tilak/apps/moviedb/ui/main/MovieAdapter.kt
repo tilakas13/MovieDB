@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Tilaka on 10/18/21, 10:52 AM
- *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 10/18/21, 10:51 AM
+ *  * Created by Tilaka on 2/25/22, 5:04 PM
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 2/25/22, 5:04 PM
  *
  */
 
@@ -13,10 +13,7 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.tilak.apps.moviedb.R
-import com.tilak.apps.moviedb.common.ImageUtils
+import com.tilak.apps.moviedb.BR
 import com.tilak.apps.moviedb.data.model.MovieModel
 import com.tilak.apps.moviedb.databinding.ItemListMovieBinding
 import com.tilak.apps.moviedb.utils.Logger
@@ -38,22 +35,13 @@ class MovieAdapter
     }
 
     override fun onBindViewHolder(holder: MovieItemViewHolder, position: Int) {
-        val movie = listMovies[position]
-        val movieBanner = holder.binding.ivMovieBanner
-        Glide.with(movieBanner.context)
-            .load(ImageUtils.getListThumbnail(movie.posterPath))
-            .centerCrop()
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .placeholder(R.drawable.default_movie_place_holder)
-            .error(R.drawable.default_movie_place_holder)
-            .into(movieBanner)
-        holder.binding.tvRating.text = movie.voteAverage.toString()
+        val movieModel = listMovies[position]
+        holder.binding.setVariable(BR.movieModel, movieModel)
         holder.binding.root.setOnClickListener { view ->
             val actionDetailView =
-                MainFragmentDirections.actionMainFragmentToDetailFragment(movie.id)
+                MainFragmentDirections.actionMainFragmentToDetailFragment(movieModel.id)
             view.findNavController().navigate(actionDetailView)
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -67,7 +55,6 @@ class MovieAdapter
         this.listMovies.clear()
         this.listMovies.addAll(it)
         diffResult.dispatchUpdatesTo(this)
-        logger.logInfo(TAG, "Adapter Movie Size ${listMovies.size}")
     }
 
     companion object {
