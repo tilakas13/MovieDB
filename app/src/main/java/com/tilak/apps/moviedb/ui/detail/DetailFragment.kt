@@ -89,14 +89,13 @@ class DetailFragment : BaseFragment() {
         data.let {
             binding.toolbar.title = it.originalTitle
             binding.tvMovieDesc.text = data.overview
-            val movieBanner = binding.ivMovieBanner
-            Glide.with(movieBanner.context)
+            Glide.with(requireContext())
                 .load(ImageUtils.getBannerImage(it.backdropPath))
                 .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .placeholder(R.drawable.default_movie_place_holder)
                 .error(R.drawable.default_movie_place_holder)
-                .into(movieBanner)
+                .into(binding.ivMovieBanner)
         }
     }
 
