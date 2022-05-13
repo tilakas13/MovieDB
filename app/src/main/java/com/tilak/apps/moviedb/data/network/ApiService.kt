@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Tilaka on 10/18/21, 10:52 AM
- *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 10/18/21, 10:12 AM
+ *  * Created by Tilaka on 5/13/22, 9:21 PM
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 5/13/22, 9:21 PM
  *
  */
 
@@ -19,7 +19,6 @@ interface ApiService {
 
     @GET("discover/movie?sort_by=popularity.desc")
     suspend fun getPopularMovies(@Query("page") page: Int): MovieListModel
-
 
     @GET("movie/{movie_id}")
     suspend fun getMovieDetail(@Path("movie_id") movie_id: Int): MovieDetail

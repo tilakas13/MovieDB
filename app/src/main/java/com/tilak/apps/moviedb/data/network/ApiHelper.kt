@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Tilaka on 10/18/21, 10:52 AM
- *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 10/18/21, 10:12 AM
+ *  * Created by Tilaka on 5/13/22, 9:19 PM
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 10/23/21, 6:24 PM
  *
  */
 
@@ -17,5 +17,6 @@ interface ApiHelper {
     suspend fun getPopularMovies(page: Int): MovieListModel
 
     suspend fun getMovieDetail(movieId: Int): MovieDetail
+
     suspend fun getCastCewDetails(movieId: Int): CastCrewModel
 }

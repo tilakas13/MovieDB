@@ -15,6 +15,7 @@ import com.tilak.apps.moviedb.data.model.MovieModel
 import com.tilak.apps.moviedb.data.repositories.MovieRepository
 import com.tilak.apps.moviedb.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,23 +33,17 @@ class MainViewModel
 
     fun getPopularMovies() {
         if (currentPage <= totalPages) {
-            viewModelScope.launch {
-                try {
-                    screenState.value = MovieListingState.Loading
-                    val movieModel = repository.getPopularMovies(++currentPage)
-                    logger.logInfo(TAG, "getPopularMovies : $currentPage :: SUCCESS")
-                    totalPages = movieModel.totalPages
-                    val movieList =
-                        if (_movieListModel.value == null) mutableListOf() else _movieListModel.value
-                    movieList?.addAll(movieModel.results)
-                    _movieListModel.value = movieList!!
-                    screenState.value = MovieListingState.Success(_movieListModel.value!!)
-                    logger.logInfo(TAG, "getPopularMovies : ${_movieListModel.value?.size}")
-                } catch (e: Exception) {
-                    screenState.value = MovieListingState.Error(
-                        e.localizedMessage ?: "Please check your internet connection"
-                    )
-                }
+            viewModelScope.launch(exceptionHandler) {
+                screenState.value = MovieListingState.Loading
+                val movieModel = repository.getPopularMovies(++currentPage)
+                logger.logInfo(TAG, "getPopularMovies : $currentPage :: SUCCESS")
+                totalPages = movieModel.totalPages
+                val movieList =
+                    if (_movieListModel.value == null) mutableListOf() else _movieListModel.value
+                movieList?.addAll(movieModel.results)
+                _movieListModel.value = movieList!!
+                screenState.value = MovieListingState.Success(_movieListModel.value!!)
+                logger.logInfo(TAG, "getPopularMovies : ${_movieListModel.value?.size}")
             }
         }
     }
@@ -57,6 +52,12 @@ class MainViewModel
         data class Success(val data: MutableList<MovieModel>) : MovieListingState()
         data class Error(val message: String) : MovieListingState()
         object Loading : MovieListingState()
+    }
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        screenState.value = MovieListingState.Error(
+            exception.localizedMessage ?: "Please check your internet connection"
+        )
     }
 
     companion object {
