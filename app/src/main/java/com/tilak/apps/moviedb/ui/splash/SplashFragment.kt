@@ -33,15 +33,13 @@ class SplashFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.liveData.observe(viewLifecycleOwner, {
+        viewModel.splashScreenStus.observe(viewLifecycleOwner) {
             when (it) {
                 is SplashViewModel.SplashState.splashScreen -> {
-
                     findNavController().navigate(R.id.action_splashFragment_to_mainFragment)
                 }
             }
-        })
+        }
     }
 
 

@@ -1,8 +1,8 @@
 /*
  * *
- *  * Created by Tilaka on 10/18/21, 10:52 AM
- *  * Copyright (c) 2021 . All rights reserved.
- *  * Last modified 10/18/21, 10:12 AM
+ *  * Created by Tilaka on 5/13/22, 11:43 PM
+ *  * Copyright (c) 2022 . All rights reserved.
+ *  * Last modified 5/13/22, 9:14 PM
  *
  */
 
@@ -19,9 +19,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel   @Inject constructor() : ViewModel() {
+class SplashViewModel @Inject constructor() : ViewModel() {
 
-    val liveData: LiveData<SplashState>
+    val splashScreenStus: LiveData<SplashState>
         get() = mutableLiveData
     private val mutableLiveData = MutableLiveData<SplashState>()
 

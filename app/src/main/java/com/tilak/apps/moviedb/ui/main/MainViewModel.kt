@@ -12,7 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tilak.apps.moviedb.data.model.MovieModel
-import com.tilak.apps.moviedb.data.repositories.MovieRepository
+import com.tilak.apps.moviedb.domain.movieList.MovieUseCase
 import com.tilak.apps.moviedb.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,7 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel
 @Inject constructor(
-    private val repository: MovieRepository,
+    private val repository: MovieUseCase,
     private val logger: Logger
 ) : ViewModel() {
 

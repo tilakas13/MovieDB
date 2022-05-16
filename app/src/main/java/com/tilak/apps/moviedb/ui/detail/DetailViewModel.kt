@@ -13,7 +13,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tilak.apps.moviedb.data.model.castCrew.CastCrew
 import com.tilak.apps.moviedb.data.model.details.MovieDetail
-import com.tilak.apps.moviedb.data.repositories.MovieRepository
+import com.tilak.apps.moviedb.domain.castCrew.CastCrewUseCase
+import com.tilak.apps.moviedb.domain.movieList.MovieUseCase
 import com.tilak.apps.moviedb.utils.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,7 +23,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailViewModel @Inject constructor(
-    private val repository: MovieRepository, private val logger: Logger
+    private val movieUseCase: MovieUseCase,
+    private val castCrewUseCase: CastCrewUseCase,
+    private val logger: Logger
 ) : ViewModel() {
 
     private var _detailMovieModel = MutableLiveData<MovieDetail>()
@@ -32,8 +35,8 @@ class DetailViewModel @Inject constructor(
     fun getMovieDetails(movieId: Int) {
         viewModelScope.launch(exceptionHandler) {
             screenState.value = DetailViewState.Loading(true)
-            val detail = repository.getMovieDetails(movieId)
-            val castCrewModel = repository.getCastCewDetails(movieId)
+            val detail = movieUseCase.getMovieDetails(movieId)
+            val castCrewModel = castCrewUseCase.getCastCewDetails(movieId)
             _detailMovieModel.value = detail
             screenState.value = DetailViewState.SuccessMovieDetail(detail)
             screenState.value = DetailViewState.Loading(false)
