@@ -19,7 +19,7 @@ data class CastCrew(
 //    @SerializedName("name") var name: String,
     @SerializedName("original_name") var originalName: String,
     //   @SerializedName("popularity") var popularity: Double,
-    @SerializedName("profile_path") var profilePath: String,
+    @SerializedName("profile_path") var profilePath: String?,
     // @SerializedName("cast_id") var castId: Int,
     @SerializedName("character") var character: String,
     //   @SerializedName("credit_id") var creditId: String,

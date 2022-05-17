@@ -40,14 +40,15 @@ class CastCrewAdapter
     override fun onBindViewHolder(holder: CastCrewViewHolder, position: Int) {
         val castCrewModel = listCastCrew[position]
         val movieBanner = holder.binding.ivMovieBanner
-        Glide.with(movieBanner.context)
-            .load(ImageUtils.getListThumbnail(castCrewModel.profilePath))
-            .centerCrop()
-            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .placeholder(R.drawable.default_movie_place_holder)
-            .error(R.drawable.default_movie_place_holder)
-            .into(movieBanner)
-
+        castCrewModel.profilePath?.let {
+            Glide.with(movieBanner.context)
+                .load(ImageUtils.getListThumbnail(it))
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .placeholder(R.drawable.default_movie_place_holder)
+                .error(R.drawable.default_movie_place_holder)
+                .into(movieBanner)
+        }
         holder.binding.tvCastCrewName.text = castCrewModel.originalName
 
     }
